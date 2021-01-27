@@ -1,0 +1,26 @@
+#!/bin/sh
+
+set -e
+
+CLONE_PATH={{ clone_path }}
+cd $CLONE_PATH;
+
+{% if run_build %}
+
+if [ ! -f "build.sh" ]; then
+    touch NO_BUILD;
+    echo "No build script found! Bailing out!";
+    exit 1;
+fi
+
+echo "Artifacts with hash {{ sha }} are missing. Building it."
+
+./build.sh;
+
+{% else %}
+
+echo "Artifact with hash {{ sha }} already exists. Skipping build."
+
+touch NO_BUILD;
+
+{% endif %}
