@@ -1,7 +1,6 @@
 import logging
 import os
 import signal
-import shutil
 import time
 
 from build_utils import (
@@ -49,8 +48,8 @@ def update_binaries(s3_client, binary_list, latest_downloads):
 class TerminateHandler:
   def __init__(self):
     self.terminate = False
-    signal.signal(signal.SIGINT, self.exit_gracefully)
-    signal.signal(signal.SIGTERM, self.exit_gracefully)
+    signal.signal(signal.SIGINT, self.signal_termination)
+    signal.signal(signal.SIGTERM, self.signal_termination)
 
   def signal_termination(self, signum, frame):
     self.terminate = True
@@ -66,5 +65,5 @@ if __name__ == "__main__":
     )
     while not terminate_handler.terminate:
         binary_list = load_json_file(BINARY_LIST_PATH)
-        download_binaries(s3_client, binary_list, latest_downloads)
+        update_binaries(s3_client, binary_list, latest_downloads)
         time.sleep(UPDATE_INTERVAL) 

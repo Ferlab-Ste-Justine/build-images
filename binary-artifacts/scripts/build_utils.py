@@ -1,4 +1,6 @@
 import json
+import shutil
+
 import boto3
 from botocore.client import Config
 
