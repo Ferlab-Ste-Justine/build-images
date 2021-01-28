@@ -1,0 +1,13 @@
+name: Build Images
+
+on: [push]
+
+jobs:
+  build-binary-artifacts:
+    name: Build Image
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: Ensure we can build the image
+      run: docker build -t test:test --target server .
+      working-directory: binary-artifacts
