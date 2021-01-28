@@ -1,0 +1,20 @@
+name: Lint Images
+
+on: [push]
+
+jobs:
+  Lint-binary-artifacts:
+    name: Lint Binary Artifacts Image
+    runs-on: ubuntu-18.04
+    container:
+      image: python:3.9
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install pylint
+      run: pip install pylint===2.6.0
+    - name: Install other dependencies
+      run: pip install -r requirements.txt
+      working-directory: binary-artifacts
+    - name: Run pylint
+      run: ./lint.sh
+      working-directory: binary-artifacts

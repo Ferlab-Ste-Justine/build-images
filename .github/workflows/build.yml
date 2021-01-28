@@ -9,5 +9,5 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Ensure we can build the image
-      run: docker build -t test:test --target server .
+      run: docker build -t test:test .
       working-directory: binary-artifacts
