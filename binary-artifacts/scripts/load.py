@@ -14,9 +14,10 @@ from build_utils import (
     download_obj
 )
 
+logging.basicConfig()
 LOG_LEVEL = os.environ.get('LOG_LEVEL', 'INFO')
-logging.basicConfig(level=getattr(logging, LOG_LEVEL))
-LOGGER = logging.getLogger('load-binaries')
+LOGGER = logging.getLogger('load')
+LOGGER.setLevel(getattr(logging, LOG_LEVEL))
 
 BINARY_LIST_PATH = os.environ.get('BINARY_LIST_PATH', '/opt/binary_list/binary_list.json')
 DOWNLOAD_PATH = os.environ.get('DOWNLOAD_PATH', '/opt/download')
@@ -32,7 +33,7 @@ def download_binaries(s3_client, binary_list):
                 LOGGER.error("Bucket %s is empty", binary)
                 sys.exit(1)
         else:
-            key = binary
+            key = binary_list[binary]['version']
         download_path = os.path.join(DOWNLOAD_PATH, key)
         download_obj(
             s3_client,

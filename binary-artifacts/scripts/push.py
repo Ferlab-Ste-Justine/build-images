@@ -14,9 +14,10 @@ CLONE_PATH = os.environ.get('CLONE_PATH', '/opt/repo')
 
 BUILD_LIST_PATH = os.environ.get('BUILD_LIST_PATH', '/opt/build_list/build_list.json')
 
+logging.basicConfig()
 LOG_LEVEL = os.environ.get('LOG_LEVEL', 'INFO')
-logging.basicConfig(level=getattr(logging, LOG_LEVEL))
-LOGGER = logging.getLogger('push-binaries')
+LOGGER = logging.getLogger('push')
+LOGGER.setLevel(getattr(logging, LOG_LEVEL))
 
 def has_built(repo_path):
     """

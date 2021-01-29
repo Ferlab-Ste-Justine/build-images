@@ -15,9 +15,10 @@ BUILD_LIST_PATH = os.environ.get('BUILD_LIST_PATH', '/opt/build_list/build_list.
 
 MAX_ARTIFACTS_AMOUNT = int(os.environ.get('MAX_ARTIFACTS_AMOUNT', '30'))
 
+logging.basicConfig()
 LOG_LEVEL = os.environ.get('LOG_LEVEL', 'INFO')
-logging.basicConfig(level=getattr(logging, LOG_LEVEL))
-LOGGER = logging.getLogger('prune-binaries')
+LOGGER = logging.getLogger('prune')
+LOGGER.setLevel(getattr(logging, LOG_LEVEL))
 
 def __trim_bucket_objs(s3_client, bucket, sorted_objs, max_obj_amount):
     if len(sorted_objs) <= max_obj_amount:

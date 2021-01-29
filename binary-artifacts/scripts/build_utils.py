@@ -68,7 +68,7 @@ def get_most_recent_obj(s3_client, bucket):
     objs = get_objs_sorted_by_timestamp(s3_client, bucket)
     if len(objs) == 0:
         return None
-    return objs[-1]
+    return objs[0]
 
 def download_obj(s3_client, bucket, obj, download_path, final_path, logger):
     # pylint: disable=too-many-arguments

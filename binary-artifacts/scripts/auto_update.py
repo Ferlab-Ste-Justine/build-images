@@ -16,9 +16,11 @@ from build_utils import (
     download_obj
 )
 
+logging.basicConfig()
 LOG_LEVEL = os.environ.get('LOG_LEVEL', 'INFO')
-logging.basicConfig(level=getattr(logging, LOG_LEVEL))
-LOGGER = logging.getLogger('update-binaries')
+LOGGER = logging.getLogger('auto_update')
+LOGGER.setLevel(getattr(logging, LOG_LEVEL))
+
 
 BINARY_LIST_PATH = os.environ.get('BINARY_LIST_PATH', '/opt/binary_list/binary_list.json')
 DOWNLOAD_PATH = os.environ.get('DOWNLOAD_PATH', '/opt/download')
@@ -37,7 +39,7 @@ def update_binaries(s3_client, binary_list, latest_downloads):
                 LOGGER.error("Bucket %s is empty", binary)
                 sys.exit(1)
         else:
-            key = binary
+            key = binary_list[binary]['version']
         if binary not in latest_downloads or latest_downloads[binary] != key:
             latest_downloads[binary] = key
             download_path = os.path.join(DOWNLOAD_PATH, key)
@@ -49,6 +51,8 @@ def update_binaries(s3_client, binary_list, latest_downloads):
                 binary_list[binary]['path'],
                 LOGGER
             )
+        else:
+            LOGGER.debug("Skipping download of obj %s from bucket %s as it was already present", key, binary)
 
 class TerminateHandler:
     # pylint: disable=too-few-public-methods
