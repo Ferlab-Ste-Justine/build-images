@@ -14,9 +14,9 @@ jobs:
     - name: Push the binary artifacts image on the docker registry
       uses: Ferlab-Ste-Justine/action-push-image@master
       with:
-        username: chusj
-        password: ${{ secrets.DOCKER_HUB_TOKEN }}
-        image: chusj/binary-artifacts
+        username: ${{ secrets.FERLAB_DOCKER_HUB_USER }}
+        password: ${{ secrets.FERLAB_DOCKER_HUB_TOKEN }}
+        image: ferlabcrsj/binary-artifacts
         tag_source: sha
         location: binary-artifacts
         dockerfile: binary-artifacts/Dockerfile
